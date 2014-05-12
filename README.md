@@ -14,8 +14,8 @@ How to Run -
 
    Mentioned the direction in which all  the XLS file are there. 
    
-   Use \\ instead of \ in the directory path. 
+   Use \\\\ instead of \ in the directory path. 
    
-   e.g. DIR=D:\\Workspace\\sheet
+   e.g. DIR=D:\\\\Workspace\\\\sheet
 
 4. Run the Conevitor.bat file to generate CSV and TXT files in the same folder as the XLS files
