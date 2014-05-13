@@ -17,23 +17,17 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ConevitorUtil {
 	static String dataDirName;
-	//static final String testInputFileName = "test_xls.xls";
-	//static final String testOutputFileName = "test_csv.csv";
 
 	static void xlsToText(File inputFile, String delimiter) {
 		
 		File outputFile = new File(getOutputFile(inputFile.getAbsolutePath(), delimiter));
 		System.out.println(outputFile.getAbsolutePath());
-		// For storing data into CSV files
+		
 		StringBuffer data = new StringBuffer();
 
 		try {
 			FileOutputStream fos = new FileOutputStream(outputFile);
-			// Get the workbook object for XLSX file
-			/*XSSFWorkbook wBook = new XSSFWorkbook(
-					new FileInputStream(inputFile));
-			// Get first sheet from the workbook
-			XSSFSheet sheet = wBook.getSheetAt(0);*/
+			
 			
 			Workbook wBook = new HSSFWorkbook(new FileInputStream(inputFile));
 			// Get first sheet from the workbook
@@ -143,18 +137,24 @@ public class ConevitorUtil {
 			
 			File[] fList = loadXLSFiles(dataDir);
 			System.out.println("dataDir::"+dataDir);
-			
-			for(File inputFile : fList){
-				// generate CSV
-				String delimiter = ",";
-				xlsToText(inputFile, delimiter);
-				// generate TXT
-				delimiter = "|";				
-				xlsToText(inputFile, delimiter);				
+			if(fList.length>0) {
+				for(File inputFile : fList){
+					// generate CSV
+					String delimiter = ",";
+					xlsToText(inputFile, delimiter);
+					// generate TXT
+					delimiter = "|";				
+					xlsToText(inputFile, delimiter);				
+				}
+				System.out.println("Convertion Complete!");
+			} else {
+				System.err.println("There are no XLS files to convert!");
 			}
-		}	
+		} else {
+			System.err.println("Can't find you folder - "+dataDirName);
+		}
 		
-		System.out.println("Convertion Complete!");
+		
 	}
 
 	private static String loadDir()  throws Exception {

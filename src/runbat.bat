@@ -5,7 +5,7 @@ SET CLASSPATH=lib\poi-3.10-FINAL-20140208.jar
 
 SET CLASSPATH=%CLASSPATH%;.;
 
-echo %CLASSPATH%
+@rem echo %CLASSPATH%
 
 javac -classpath %CLASSPATH% ConevitorUtil.java
 javac -classpath %CLASSPATH% ConevitorMain.java
