@@ -1,7 +1,7 @@
 XLSToCSVConeVitor
 =================
 
-### Bulk Convert XLS file to CSV (comma separated) and Text (with | separated)
+### Bulk Convert XLS file to CSV or Text with any delimiter. 
 
 
 How to Run - 
@@ -13,11 +13,19 @@ How to Run -
 
 3. Open dir.properties file in notepad.
 
-   Mentioned the direction in which all  the XLS file are there. 
+   + Mentioned the directory in which all the XLS file are present against the property 'DIR'
    
    Use \\ instead of \ in the directory path. 
    
    e.g. DIR=D:\\Workspace\\sheet
+
+   + Mention the output file type  against the property 'FILE_TYPE'
+      
+      e.g. FILE_TYPE=csv 
+
+   + Mention the desired delimiter (separater) against the property 'DELIMITER'
+   
+      e.g. DELIMITER=,
 
 4. Run the Conevitor.bat file to generate CSV and TXT files in the same folder as the XLS files
 ````
