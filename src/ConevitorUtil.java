@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,8 +15,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 
 
-public class Conevitor {
-	static String dataDirName = "J:\\Workspace\\XLSToCSVConeVitor\\data\\";
+public class ConevitorUtil {
+	static String dataDirName;
 	//static final String testInputFileName = "test_xls.xls";
 	//static final String testOutputFileName = "test_csv.csv";
 
@@ -135,8 +134,7 @@ public class Conevitor {
 	}
 
 	// testing the application
-
-	public static void main(String[] args) throws Exception {
+    public static void runConevitor() throws Exception {
 		
 		dataDirName = loadDir();
 		File dataDir = new File(dataDirName);

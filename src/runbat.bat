@@ -7,8 +7,9 @@ SET CLASSPATH=%CLASSPATH%;.;
 
 echo %CLASSPATH%
 
-javac -classpath %CLASSPATH% Conevitor.java
-java -classpath %CLASSPATH% Conevitor
+javac -classpath %CLASSPATH% ConevitorUtil.java
+javac -classpath %CLASSPATH% ConevitorMain.java
+java -classpath %CLASSPATH% ConevitorMain
   
 goto eof
 
