@@ -16,70 +16,71 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 
 public class ConevitorUtil {
-	static String dataDirName;
+	private static String dataDirName;
+	private static String fileType;
+	private static String delimiter;
 
-	static void xlsToText(File inputFile, String delimiter) {
+	private static final String DIR_PROP_NAME = "DIR";
+	private static final String FILE_TYPE_PROP_NAME = "FILE_TYPE";
+	private static final String DELIMITER_PROP_NAME = "DELIMITER";
+
+	static void xlsToText(File inputFile) throws Exception {
 		
-		File outputFile = new File(getOutputFile(inputFile.getAbsolutePath(), delimiter));
-		System.out.println(outputFile.getAbsolutePath());
+		File outputFile = new File(getOutputFile(inputFile.getAbsolutePath()));
+		System.out.println(outputFile.getAbsolutePath()+"\n\n");
 		
 		StringBuffer data = new StringBuffer();
 
-		try {
-			FileOutputStream fos = new FileOutputStream(outputFile);
-			
-			
-			Workbook wBook = new HSSFWorkbook(new FileInputStream(inputFile));
-			// Get first sheet from the workbook
-			Sheet sheet = wBook.getSheetAt(0);
-			
-			Row row;
-			Cell cell;
-			// Iterate through each rows from first sheet
-			Iterator<Row> rowIterator = sheet.iterator();
+		FileOutputStream fos = new FileOutputStream(outputFile);
+		
+		
+		Workbook wBook = new HSSFWorkbook(new FileInputStream(inputFile));
+		// Get first sheet from the workbook
+		Sheet sheet = wBook.getSheetAt(0);
+		
+		Row row;
+		Cell cell;
+		// Iterate through each rows from first sheet
+		Iterator<Row> rowIterator = sheet.iterator();
 
-			while (rowIterator.hasNext()) {
-				row = rowIterator.next();
+		while (rowIterator.hasNext()) {
+			row = rowIterator.next();
 
-				// For each row, iterate through each columns
-				Iterator<Cell> cellIterator = row.cellIterator();
-				while (cellIterator.hasNext()) {
+			// For each row, iterate through each columns
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext()) {
 
-					cell = cellIterator.next();
+				cell = cellIterator.next();
 
-					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_BOOLEAN:
-						data.append(cell.getBooleanCellValue() + delimiter);
+				switch (cell.getCellType()) {
+				case Cell.CELL_TYPE_BOOLEAN:
+					data.append(cell.getBooleanCellValue() + delimiter);
 
-						break;
-					case Cell.CELL_TYPE_NUMERIC:
-						data.append(cell.getNumericCellValue() + delimiter);
+					break;
+				case Cell.CELL_TYPE_NUMERIC:
+					data.append(cell.getNumericCellValue() + delimiter);
 
-						break;
-					case Cell.CELL_TYPE_STRING:
-						data.append(cell.getStringCellValue() + delimiter);
-						break;
+					break;
+				case Cell.CELL_TYPE_STRING:
+					data.append(cell.getStringCellValue() + delimiter);
+					break;
 
-					case Cell.CELL_TYPE_BLANK:
-						data.append("" + delimiter);
-						break;
-					default:
-						data.append(cell + delimiter);
+				case Cell.CELL_TYPE_BLANK:
+					data.append("" + delimiter);
+					break;
+				default:
+					data.append(cell + delimiter);
 
-					}
 				}
-				data.append("\r\n");
 			}
-
-			fos.write(data.toString().getBytes());
-			fos.close();
-
-		} catch (Exception ioe) {
-			ioe.printStackTrace();
+			data.append("\r\n");
 		}
+
+		fos.write(data.toString().getBytes());
+		fos.close();		
 	}
 	
-	private static String getOutputFile(String inputFileName, String delimiter) {
+	private static String getOutputFile(String inputFileName) throws Exception {
 		if(inputFileName.lastIndexOf('.')>0)
         {
            // get last index for '.' char
@@ -91,17 +92,13 @@ public class ConevitorUtil {
            // match path name extension
            if(extn.equals(".xls"))
            {
-              if(delimiter.equals(",")) {
-            	  return (fileName+".csv");
-              } else if(delimiter.equals("|")) {
-            	  return (fileName+".txt");
-              }
+           		return (fileName+"."+fileType);              
            }
         }
 		return null;
 	}
 
-	private static File[] loadXLSFiles(File dataDir) { 
+	private static File[] loadXLSFiles(File dataDir) throws Exception { 
 
 		 FilenameFilter fileNameFilter = new FilenameFilter() {
            @Override
@@ -130,21 +127,15 @@ public class ConevitorUtil {
 	// testing the application
     public static void runConevitor() throws Exception {
 		
-		dataDirName = loadDir();
+		loadProperties();
 		File dataDir = new File(dataDirName);
-		if(dataDir.isDirectory()) {		
-			
+		if(dataDir.isDirectory()) {
 			
 			File[] fList = loadXLSFiles(dataDir);
 			System.out.println("dataDir::"+dataDir);
 			if(fList.length>0) {
-				for(File inputFile : fList){
-					// generate CSV
-					String delimiter = ",";
-					xlsToText(inputFile, delimiter);
-					// generate TXT
-					delimiter = "|";				
-					xlsToText(inputFile, delimiter);				
+				for(File inputFile : fList) {					
+					xlsToText(inputFile);					
 				}
 				System.out.println("Convertion Complete!");
 			} else {
@@ -157,10 +148,12 @@ public class ConevitorUtil {
 		
 	}
 
-	private static String loadDir()  throws Exception {
+	private static void loadProperties()  throws Exception {
 		// TODO Auto-generated method stub
 		Properties propFile = new Properties();
 		propFile.load(new FileInputStream("dir.properties"));
-		return propFile.getProperty("DIR");
+		dataDirName = propFile.getProperty(DIR_PROP_NAME);
+		fileType = propFile.getProperty(FILE_TYPE_PROP_NAME);
+		delimiter = propFile.getProperty(DELIMITER_PROP_NAME);
 	}
 }
