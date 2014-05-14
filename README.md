@@ -4,7 +4,7 @@ XLSToCSVConeVitor
 ### Bulk Convert XLS file to CSV or Text with any delimiter. 
 
 
-How to Run - 
+How to Run
 ----
 ````
 1. Download the src folder
@@ -24,6 +24,5 @@ How to Run -
 4. Run the Conevitor.bat file to generate CSV or TXT files in the same folder as the XLS files
 ````
 
-API used for XLS convertion 
----------------------------
+### API used for XLS convertion 
 > [Apache POI](http://poi.apache.org/download.html)
