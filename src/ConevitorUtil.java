@@ -29,11 +29,11 @@ public class ConevitorUtil {
 		File outputFile = new File(getOutputFile(inputFile.getAbsolutePath()));
 		System.out.println(outputFile.getAbsolutePath()+"\n\n");
 		
-		StringBuffer data = new StringBuffer();
+		StringBuilder data = new StringBuilder();
 
 		FileOutputStream fos = new FileOutputStream(outputFile);
-		
-		
+
+
 		Workbook wBook = new HSSFWorkbook(new FileInputStream(inputFile));
 		// Get first sheet from the workbook
 		Sheet sheet = wBook.getSheetAt(0);
@@ -73,6 +73,7 @@ public class ConevitorUtil {
 
 				}
 			}
+            data.setLength(data.length()-delimiter.length());
 			data.append("\r\n");
 		}
 
