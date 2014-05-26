@@ -1,7 +1,7 @@
 XLSToCSVConeVitor
 =================
 
-### Bulk Convert XLS file to CSV or Text with any delimiter. 
+### Bulk Convert XLS file to CSV or Text files with any delimiter. 
 
 
 How to Run
